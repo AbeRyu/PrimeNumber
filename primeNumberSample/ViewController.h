@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController{
+@interface ViewController : UIViewController<UIGestureRecognizerDelegate>{
     int point;  //ゲーム中の得点
     int score;  //結果用
     int num;    //現在表示されている数字
     NSMutableArray *primeArray;
     NSMutableArray *numberArray;
+    UIView *moveView;
 }
 
+
+-(IBAction)debug;
 
 @end
 

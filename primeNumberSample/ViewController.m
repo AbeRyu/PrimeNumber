@@ -84,32 +84,66 @@
     //    rect = sc.applicationFrame;
     //    NSLog(@"%.1f, %.1f", rect.size.width, rect.size.height);
     
-    
-    UIView *moveView =[[UIView alloc] initWithFrame:CGRectMake(rect.size.width/2-50,rect.size.height-200,100,100)];
+    //弾く為のViewを生成
+    moveView =[[UIView alloc] initWithFrame:CGRectMake(rect.size.width/2-50,rect.size.height-200,100,100)];
     moveView.backgroundColor =  [UIColor blackColor];
-    [self.view addSubview:moveView];
-    NSLog(@"%.1f, %.1f", moveView.center.x, moveView.center.y);
     moveView.layer.cornerRadius = 50.0;
     NSArray* colors = @[UIColor.redColor, UIColor.blueColor, UIColor.greenColor, UIColor.yellowColor];
     moveView.layer.borderColor = [colors[arc4random()%colors.count] CGColor];
     moveView.layer.borderWidth = 5;
+    //画面にmoveViewを追加
+    [self.view addSubview:moveView];
+//    NSLog(@"%.1f, %.1f", moveView.center.x, moveView.center.y);
+
     
     // UILabelを生成
     UILabel *primeLabel = [[UILabel alloc] init];
     primeLabel.frame = CGRectMake(moveView.frame.size.width/2-37.5, moveView.frame.size.height/2-37.5, 75, 75);
-    if(arc4random()%2 == 0){
+    
+    //素数かそれ以外かランダムで生成
+    if(arc4random_uniform(2) == 0){
         int select1 = arc4random() % numberArray.count;
         num = [[numberArray objectAtIndex:select1] intValue];
     }else{
         int select2 = arc4random() % primeArray.count;
         num = [[primeArray objectAtIndex:select2] intValue];
     }
+    //ラベルに代入
     primeLabel.text = [NSString stringWithFormat:@"%d",num];
-    
     primeLabel.textAlignment = UITextAlignmentCenter;
     //    primeLabel.backgroundColor = [UIColor redColor];
     primeLabel.textColor = [UIColor whiteColor];
     primeLabel.font = [UIFont boldSystemFontOfSize:30];
+    //ラベルをmoveViewに追加
     [moveView addSubview:primeLabel];
+}
+
+- (void)panAction:(UIPanGestureRecognizer *)sender {
+    
+    if (sender.state == UIGestureRecognizerStateBegan){//タップ初め
+        
+    }
+    
+    if (sender.state == UIGestureRecognizerStateEnded){//タップ終わり
+
+    }
+    
+    
+}
+
+
+/* -- デバッグ用ボタン --*/
+-(IBAction)debug{
+
+    
+    
+    for(int i = 0; i <100 ; i++){
+        moveView.center = CGPointMake(moveView.center.x + 1, moveView.center.y - 1);
+        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    }
+    
+        [moveView removeFromSuperview];
+    
+        [self makePrimeShooter];
 }
 @end
